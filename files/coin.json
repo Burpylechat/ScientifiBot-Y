@@ -111,16 +111,22 @@
         
     },
     "Pièce objet (vol.1)" :{
-    "name_en" : "orange coin",
+    "name_en" : "object coin (vol.1)",
     "color" : "#9D6934",
-    "id" : "c0003",
+    "id" : "c0017",
     "proba" : 0.05
     },
     "Pièce objet (vol.2)" :{
-    "name_en" : "orange coin",
+    "name_en" : "object coin (vol.2)",
     "color" : "#9D6934",
-    "id" : "c0003",
+    "id" : "c0018",
     "proba" : 0.05
+    },
+    "Pièce journalière" :{
+    "name_en" : "daily coin",
+    "color" : "#78acff",
+    "id" : "c0019",
+    "proba" : 0
     }
 
     

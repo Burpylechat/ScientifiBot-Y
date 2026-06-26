@@ -30,6 +30,11 @@ async def add(user_id: int, amount: int) -> None:
     await create_user_info(user_id)
     data.MONEY_DATA[str(user_id)] += amount
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
+
+# used in the code to get the balance of a specific user
+async def get_balance(user_id: int) -> int:
+    await create_user_info(user_id)
+    return data.MONEY_DATA.get(str(user_id), 0)
         
 # use to set at 0 the wallet of a specific user
 async def reset(user_id: int) -> None:
@@ -41,8 +46,6 @@ async def del_info(user_id: int) -> None:
     if str(user_id) in data.MONEY_DATA.keys():
         del data.MONEY_DATA[str(user_id)]
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
-
-
 
 #add the orbs corresponding to a certain rank
 async def add_rank_orbe(user_id: int, rank) -> None:

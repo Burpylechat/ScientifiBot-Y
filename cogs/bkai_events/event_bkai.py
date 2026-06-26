@@ -14,85 +14,6 @@ loot = data.terrheure
 
 
 
-
-
-
-
-# equivalence of def give in admin
-async def give(input_id : str, yokai : str, rang : str, where : str, number : str = '1'):
-
-    number = int(number)
-    if where == "bag":
-        inv = await Cf.get_bag(input_id)
-        default_inv = data.default_bag.copy()
-        async def save_inv(data, id):
-            await Cf.save_bag(data=data, id=id)
-            
-    elif where == "medallium":
-        inv = await Cf.get_inv(input_id)
-        default_inv = data.default_medallium.copy()
-        async def save_inv(data, id):
-            await Cf.save_inv(data=data, id=id)
-
-
-    if rang == "json-mod" :
-        if inv == {}:
-            inv = default_inv
-        inv[yokai] = number
-        await save_inv(inv, input_id)
-                            
-    if rang == "claim":
-        inv = await Cf.get_inv(input_id)
-        if inv == {}:
-            inv = data.default_medallium.copy()
-
-        inv["claim"] = number
-        await save_inv(inv, input_id)
-        
-    class_name = rang
-    class_id = await Cf.classid_to_class(class_name, True)
-
-    
-    if inv == {}:
-        inv = default_inv
-
-        inv[yokai] = [class_id]
-            
-        inv[class_id] = 1
-        if not number == 1 :
-            inv[yokai].append(int(number))
-        await save_inv(data=inv, id=input_id)
-            
-    else :
-        for i in range(number) :
-            try:
-                inv[yokai]
-                try:
-                    inv[yokai][1] += 1
-                except :
-                    inv[yokai].append(2)
-            except KeyError:
-                inv[yokai] = [class_id]
-                try:
-                    inv[class_id] += 1
-                except:
-                    inv[class_id] = 1
-            await save_inv(data=inv, id=input_id)
-
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
 # def the button and its characteristics
 class button(discord.ui.View):
     def __init__(self, ctx):
@@ -155,6 +76,9 @@ class Terrheure():
         
         
         for recompense in loot.keys():
+            if recompense == "stats":
+                # pass stats reward for not giving error
+                continue
             if int(recompense) <= users_len:
                 reward = loot[str(recompense)]
 
@@ -171,7 +95,7 @@ class Terrheure():
                     gifted_yokai = random.choice(data.yokai_data[reward["class"]]["yokai_list"])
                     phrase = f"le yokai {gifted_yokai} de rang {reward["class"]}"
                     for id in view.users_in:
-                        await give(id,gifted_yokai,reward["class"],"medallium")
+                        await Cf.add(id,gifted_yokai,reward["class"],"medallium")
 
                 # if reward is a coin 
                 # choose a random coin in a list
@@ -180,7 +104,7 @@ class Terrheure():
                     gifted_coin = random.choice(loot[recompense]["coin_list"])
                     phrase = f"{reward["amount"]} {gifted_coin}"
                     for id in view.users_in:
-                        await give(id, gifted_coin,"pièce","bag", reward["amount"])
+                        await Cf.add(id, gifted_coin,"coin","bag", reward["amount"])
 
                 # if reward is yokail (yokai list)
                 # choose a random yokai in this list and give him
@@ -189,7 +113,7 @@ class Terrheure():
                     gifted_yokai = random.choice(reward["yokai_list"])
                     phrase = f"le yokai {gifted_yokai} de rang {reward["rang"]}"
                     for id in view.users_in:
-                        await give(id,gifted_yokai,reward["rang"],"medallium")
+                        await Cf.add(id,gifted_yokai,reward["rang"],"medallium")
 
                 # if reward is treasure
                 # give the selected treasure
@@ -197,7 +121,7 @@ class Terrheure():
                 elif reward["type"] == "treasure":
                     phrase = f"le magnifique {reward["name"]}"
                     for id in view.users_in:
-                        await give(id,reward["name"],"trésor","bag")
+                        await Cf.add(id,reward["name"],"treasure","bag")
 
 
                 # add a field to the embed corresponding of the reward of all stage

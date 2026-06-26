@@ -116,10 +116,13 @@ class Admin_command(commands.Cog):
  
     @commands.hybrid_command(name="reset")
     @Check.is_in_dev_team()
-    async def reset(self, ctx : commands.Context, input_id : str):
+    async def reset(self, ctx : commands.Context, input_id : discord.User):
         """
         Reset le Médallium et la sacoche de l'utilisateur donné.
         """
+        #keep only the id
+        input_id = input_id.id
+
         #is the input id fine ?
         try:
             int(input_id)
@@ -152,10 +155,10 @@ class Admin_command(commands.Cog):
     
     
  
-    @commands.hybrid_command(name="inventory")
-    async def inventory(self, ctx : commands.Context):
+    @commands.hybrid_command(name="statistique")
+    async def statistique(self, ctx : commands.Context, advanced:str = None):
         """
-        Donne des info sur les Medalliums/sacoches des utilisateurs du bot
+        Donne des info sur les Medalliums/sacoches et autre informations sur les utilisateurs du bot
         """
         
         total_user_md = 0
@@ -169,7 +172,7 @@ class Admin_command(commands.Cog):
             for f in filenames:
                 fp = os.path.join(dirpath, f)
                 # skip if it is symbolic link
-                if not os.path.islink(fp):
+                if not os.path.islink(fp) and f.endswith(".json"):
                     total_user_md += 1
                     total_size_md += os.path.getsize(fp)
                     
@@ -178,7 +181,7 @@ class Admin_command(commands.Cog):
             for f in filenames:
                 fp = os.path.join(dirpath, f)
                 # skip if it is symbolic link
-                if not os.path.islink(fp):
+                if not os.path.islink(fp) and f.endswith(".json"):
                     total_user_bag += 1
                     total_size_bag += os.path.getsize(fp)
         
@@ -190,8 +193,39 @@ class Admin_command(commands.Cog):
         stats_embed.add_field(name="--------------------",value="")
         stats_embed.add_field(name="Le nombre d'utilisateurs qui ont une sacoche :", value=f"`{total_user_bag}` utilisateurs", inline=False)
         stats_embed.add_field(name="Taille du dossier `bag`", value=f"`{total_size_bag}` octets", inline=False)
-        return await ctx.send(embed=stats_embed)
-                       
+        if advanced == None:
+            return await ctx.send(embed=stats_embed)
+        else:
+            stats_embed.set_footer(text="partie 1/2")
+            await ctx.send(embed=stats_embed)
+        
+        # Calculate total yokai
+        total_yokai = 0
+        ranks = ["E", "D", "C", "B", "A", "S", "LegendaryS", "treasureS", "SpecialS", "DivinityS", "Boss", "Shiny"]
+        for dirpath, _, filenames in os.walk("./files/inventory"):
+            for f in filenames:
+                fp = os.path.join(dirpath, f)
+                if not os.path.islink(fp) and f.endswith(".json"):
+                    f = f.removesuffix(".json")
+                    medallium = await Cf.get_inv(f)
+                    for rank in ranks:
+                        if rank in medallium:
+                            total_yokai += medallium[rank]
+
+        total_money=0
+        for user in data.MONEY_DATA:
+            total_money += data.MONEY_DATA[user]
+
+        statis_embed = discord.Embed(color=discord.Color.green(), title="Voici les stats avancées")
+        statis_embed.add_field(name="Totals de yo-kai en circulation", value=f"`{total_yokai}` yo-kai")
+        statis_embed.add_field(name="Totals d'orbe en circulation", value=f"{total_money} orbes")
+        statis_embed.add_field(name="nombre d'activation de la terrheure", value=f"{data.terrheure["stats"]["activation_time"]} Terrheure on déja été activé")
+        statis_embed.set_footer(text="partie 2/2")
+        return await ctx.send(embed=statis_embed)
+
+
+
+    
     @commands.hybrid_command(name="avent")
     @Check.is_in_dev_team()
     async def avent(self,ctx : commands.context):
@@ -211,7 +245,8 @@ class Admin_command(commands.Cog):
         
     @commands.hybrid_command(name="economie_mod")
     @Check.is_in_dev_team()
-    async def economie_mod(self, ctx : commands.context, input_id:str,methode:Literal["add","set","reset","del"],amount=0):
+    async def economie_mod(self, ctx : commands.context, input_id:discord.User,methode:Literal["add","set","reset","del"],amount=0):
+        input_id = input_id.id
         if not methode in ["add","set","reset","del"]:
             return await ctx.send("Merci d'utiliser une méthode valide ! (add, set, reset, del)", ephemeral=True)
         elif ctx.guild.get_member(int(input_id)):

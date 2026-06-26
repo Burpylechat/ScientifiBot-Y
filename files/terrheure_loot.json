@@ -1,4 +1,7 @@
 {
+    "stats":{
+        "activation_time":0
+    },
     "1":{
         "type": "orbe",
         "amount": 1
@@ -47,5 +50,4 @@
         "type":"orbe",
         "amount": 1000
     }
-
 }

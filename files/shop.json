@@ -1,0 +1,36 @@
+{
+    "page 1":
+    {   
+        "item 1":
+        {
+            "price": 100,
+            "description": "This is item 1",
+            "rang": "obj",
+            "quantity": 5
+        },
+        "item 2":
+        {
+            "price": 200,
+            "description": "This is item 2",
+            "rang": "Trésors",
+            "quantity": 1
+        }
+    },
+    "page 2":
+    {
+        "item 3":
+        {
+            "price": 300,
+            "description": "This is item 3",
+            "rang": "Trésors",
+            "quantity": 1
+        },
+        "item 4":
+        {
+            "price": 400,
+            "description": "This is item 4",
+            "rang": "pièce",
+            "quantity": 10
+        }
+    }
+}

@@ -339,6 +339,12 @@ async def remove(input_id:int, yokai : str, rang : str, where:str, number : int 
         async def save_inv_t(data, id):
             await save_inv(data=data, id=id)
 
+    #format the number (callers may pass it as a string):
+    try:
+        number = int(number)
+    except (TypeError, ValueError):
+        number = 1
+
         
 
     #we have to verify :

@@ -3,7 +3,7 @@ Based on
 Copyright © Krypton 2019-Present template
 Version: 6.3.0
 """
-VERSION = 7.6
+VERSION = 8.0
 
 #import general stuff
 import json
@@ -15,7 +15,7 @@ import sys
 import traceback
 import time
 
-#import form the bot package
+#import form the bot packagex   
 from bot_package import Error_manager
 from bot_package.Queue_manager import Queue
 

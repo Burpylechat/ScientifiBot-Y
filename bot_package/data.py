@@ -148,6 +148,12 @@ terrheure = open_json("./files/terrheure_loot.json")
 #blacklist info for normal bkai
 blacklist = open_json("./files/blacklisted-yokai.json")
 
+#items info for shop
+shop_item = open_json("./files/shop.json")
+
+#list of people who use daily command today
+daily_people= open_json("./files/daily.json")
+
 
 default_medallium  = {
                         "last_claim" : 10000,
