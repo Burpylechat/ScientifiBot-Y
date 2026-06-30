@@ -169,16 +169,16 @@ low_cost_coin_list = ["Pièce rouge","Pièce jaune","Pièce orange","Pièce rose
 high_cost_coin = 1000
 high_cost_coin_list = ["Pièce 5 étoiles","Pièce spéciale","Pièce noire","Pièce démoniaque","Pièce scellée","Pièce légendaire","Pièce monstrueuse"]
 
-daily_shop_proba_yokai = [0.0, 0.0, 0.0, 0.0, 0.55, 0.2, 0.10, 0.10, 0.005, 0.025, 0.01, 0.01]
+daily_shop_proba_yokai = [0.0, 0.0, 0.0, 0.0, 0.0, 0.375, 0.25, 0.25, 0.05, 0.035, 0.025, 0.015]
+#                          E    D    C    B    A     S      L     t     Sp     D     B     Sh 
 classid_to_price = {
-    'S': 100, 
-    'LegendaryS': 1000, 
+    'S': 150, 
+    'LegendaryS': 500, 
     "treasureS": 1000, 
-    "SpecialS": 1000, 
-    'DivinityS': 1000, 
-    "Boss": 1000, 
-    "Shiny" : 1000
-}
+    "SpecialS": 2000, 
+    'DivinityS': 5000, 
+    "Boss": 7500, 
+    "Shiny" : 10000
 
 
 default_medallium  = {
