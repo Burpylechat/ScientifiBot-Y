@@ -130,12 +130,12 @@ for dirpath, dirnames, filenames in os.walk("./files/coin"):
         
 #Get all objects
 with open("./files/items.json") as item_brute :
-    object_data = fix_encoding(json.load(item_brute))
+    items_data = fix_encoding(json.load(item_brute))
     item_list = []
     
-    for object in object_data :
+    for item in items_data :
         #get the name of the item
-        item_list.append(object)
+        item_list.append(item)
 
 #items info :
 item = open_json("./files/items.json")
