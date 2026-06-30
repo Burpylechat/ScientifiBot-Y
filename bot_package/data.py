@@ -128,6 +128,15 @@ for dirpath, dirnames, filenames in os.walk("./files/coin"):
         coin_loot[file.removesuffix(".json")]["proba_in_order"] = proba_in_order
         coin_loot[file.removesuffix(".json")]["element_in_order"] = element_in_order
         
+#Get all objects
+with open("./files/items.json") as item_brute :
+    object_data = fix_encoding(json.load(item_brute))
+    item_list = []
+    
+    for object in object_data :
+        #get the name of the item
+        item_list.append(object)
+
 #items info :
 item = open_json("./files/items.json")
 
@@ -153,6 +162,23 @@ shop_item = open_json("./files/shop.json")
 
 #list of people who use daily command today
 daily_people= open_json("./files/daily.json")
+
+price_daily_shop_object = 100
+low_cost_coin = 100
+low_cost_coin_list = ["Pièce rouge","Pièce jaune","Pièce orange","Pièce rose","Pièce verte","Pièce bleue","Pièce mauve","Pièce bleue ciel","bonus_roll"]
+high_cost_coin = 1000
+high_cost_coin_list = ["Pièce 5 étoiles","Pièce spéciale","Pièce noire","Pièce démoniaque","Pièce scellée","Pièce légendaire","Pièce monstrueuse"]
+
+daily_shop_proba_yokai = [0.0, 0.0, 0.0, 0.0, 0.55, 0.2, 0.10, 0.10, 0.005, 0.025, 0.01, 0.01]
+classid_to_price = {
+    'S': 100, 
+    'LegendaryS': 1000, 
+    "treasureS": 1000, 
+    "SpecialS": 1000, 
+    'DivinityS': 1000, 
+    "Boss": 1000, 
+    "Shiny" : 1000
+}
 
 
 default_medallium  = {
