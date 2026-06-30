@@ -11,7 +11,7 @@ class daily(commands.Cog):
     @commands.hybrid_command(name="daily")
     async def daily(self, ctx: commands.Context):
         """
-        permet de récupéré un objet une fois par jours
+        permet de récupérer un objet une fois par jour
         """
         #on charge les donnée nessécaire
         people = data.daily_people
@@ -28,9 +28,9 @@ class daily(commands.Cog):
         if ctx.author.id in people["people"]:
         #on lui envoi un gentil message pour lui dire qu'il en aura pas 2
             embed_bad_people = discord.Embed(title="Vous avez déjà récupéré votre récompense aujourd'hui",
-                                             description="ce n'est pas grave revenez demain !",
+                                             description="Ce n'est pas grave revenez demain !",
                                              colour=discord.Color.from_rgb(255,0,0))
-            embed_bad_people.set_footer(text="La réinitialisation s'effectue tout les soir a minuit.")
+            embed_bad_people.set_footer(text="La réinitialisation s'effectue tous les soirs à minuit.")
             return await ctx.send(embed=embed_bad_people)
         #si non on le note
         people["people"].append(ctx.author.id)
@@ -59,9 +59,9 @@ class daily(commands.Cog):
 
         #on affiche le message
         embed=discord.Embed(title="Vous avez récupéré votre Pièce journalière!",
-                            description=f"c'est une simple {choice} mais cela devrait suffir pour aujourd'hui",
+                            description=f"C'est une simple {choice} mais cela devrait suffir pour aujourd'hui",
                             colour=discord.Color.green())
-        embed.set_footer(text="revient demain pour recevoir une autre pièce")
+        embed.set_footer(text="Reviens demain pour recevoir une autre pièce")
         return await ctx.send(embed=embed)
 async def setup(bot):
     await bot.add_cog(daily(bot))

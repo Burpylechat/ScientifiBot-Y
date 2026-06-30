@@ -151,11 +151,33 @@ class Admin_command(commands.Cog):
             
                     
             
+    @commands.hybrid_command(name="dailyclear")
+    @Check.is_in_dev_team()
+    async def dailyclear(self, ctx: commands.Context, target: str):
+        """
+        Efface les récompenses quotidiennes pour tous les utilisateurs.
+        """
+        if target == "me":
+            if ctx.Author.id in data.daily_people["people"]:
+                index = data.daily_people.index(ctx.author.id)
+                del data.daily_people["people"][index]
+                return await ctx.send("tu a bien été oubliez de la liste")
+            else:
+                return await ctx.send("Vous n'êtes pas dans la liste")
+        elif target == all:
+            data.daily_people["people"].clear
+            return await ctx.send(" tout les personnes qui on effectuer le daily on été oublié")
+        else:
+            try:
+                int(target)
+            except:
+                return await ctx.send(f"Merci de fournir un identifiant corect !\n(me, all ou un id)")
+            index = data.daily_people.index(target)
+            del data.daily_people["people"][index]
+            return await ctx.send(f"l'id {target} a bien été oubliez de la liste")
             
-    
-    
- 
     @commands.hybrid_command(name="statistique")
+    @Check.is_in_dev_team()
     async def statistique(self, ctx : commands.Context, advanced:str = None):
         """
         Donne des info sur les Medalliums/sacoches et autre informations sur les utilisateurs du bot
