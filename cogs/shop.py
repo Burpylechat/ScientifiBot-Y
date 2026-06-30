@@ -75,107 +75,6 @@ class shop(commands.Cog):
 
 
 
-    @commands.hybrid_command(name="daily_shop")
-    async def daily_shop(self, ctx):
-        current_time = time.time()
-        current_day = time.localtime(current_time)
-        midnight = time.mktime((current_day.tm_year, current_day.tm_mon, 
-                                current_day.tm_mday, 0, 0, 0, 0, 0, 0))
-        midnight -= 3600 #correction cause it's fucked up
-        bag = await Cf.get_bag(ctx.author.id)
-
-        try:
-            last_daily_shop_reset = bag["last_daily_shop_reset"]
-        except:
-            last_daily_shop_reset = 0
-        
-        if last_daily_shop_reset < midnight:
-            bag["last_daily_shop_reset"] = midnight
-            possible_daily_item_type = ["coin", "object", "yo-kai"]
-            daily_item_type = random.choices(possible_daily_item_type, weights=[0.33,0.33,0.33])
-            print(daily_item_type)
-            if daily_item_type == ['coin']:
-                coins = data.coin_list
-                coins.append("bonus_roll")
-                coin_type = random.choices(["normal","rare"],weights=[0.75,0.25])
-
-                
-                if coin_type == ['normal']:
-                    daily_item = random.choice(data.low_cost_coin_list)
-                    price = data.low_cost_coin
-                elif coin_type == ['rare']:
-                    daily_item = random.choice(data.high_cost_coin_list)
-                    price = data.high_cost_coin
-                description = "Une petite-pièce à utiliser au /bkai."
-                type_daily_shop = "coin"
-                data_daily_shop = [type_daily_shop, price, description, daily_item]
-
-
-            elif daily_item_type == ['object']:
-                daily_item = random.choice(data.item_list)
-                price = data.price_daily_shop_object
-                type_daily_shop = "object"
-                description = "Un objet en vente."
-                data_daily_shop = [type_daily_shop, price, description, daily_item]
-                
-
-
-            elif daily_item_type == ['yo-kai']:
-                weights=data.golden_proba_list.copy() #will do a bingo-kai roll, but with better luck
-                class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
-                while class_choice["class_name"] in data.blacklist["rang"]:
-                    class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
-
-                #get the good name of the class and his id
-                class_name = class_choice.get("class_name")
-                class_id = class_choice.get("class_id")
-                #choose the Yo-kai in the class
-                Yokai_choice = random.choice(class_choice["yokai_list"])
-        
-                while Yokai_choice in data.blacklist.get("yokai") :
-                    Yokai_choice = random.choice(class_choice["yokai_list"])
-                Yokai_choice = Yokai_choice
-                description = f"Un magnifique yo-kai de rang {class_name}✨"
-                type_daily_shop = "yokai"
-                price = data.classid_to_price[class_id]
-                data_daily_shop = [type_daily_shop, description, price, Yokai_choice, class_id]
-                
-            
-            bag["daily_shop_data"] = data_daily_shop
-            bag["daily_shop_bought"] = False
-            embed = discord.Embed(
-                title="Votre item du jour dans la boutique:",
-                description=""
-            )
-            description = bag["daily_shop_data"][2]
-            price = bag["daily_shop_data"][1]
-            if bag["daily_shop_data"][0] == "yokai":
-                class_name = Cf.classid_to_class(bag["daily_shop_data"][4])
-                embed.add_field(name = f"{daily_item}",value = f"Rang: {class_name} \nDescription: {description} \nPrix: {price} orbes")
-            else:
-                embed.add_field(name = f"{daily_item}",value = f"Description: {description} \nPrix: {price} orbes")
-            await Cf.save_bag(bag,ctx.author.id)
-            return await ctx.send(embed=embed)
-        
-        
-        else:
-            bag = await Cf.get_bag(ctx.author.id)
-            daily_item = bag["daily_shop_data"][3]
-            embed = discord.Embed(
-                title="Votre item du jour dans la boutique:",
-                description=""
-            )
-            description = bag["daily_shop_data"][2]
-            price = bag["daily_shop_data"][1]
-            if bag["daily_shop_data"][0] == "yokai":
-                class_name = Cf.classid_to_class(bag["daily_shop_data"][4])
-                embed.add_field(name = f"{daily_item}",value = f"Rang: {class_name} \nDescription: {description} \nPrix: {price} orbes")
-            else:
-                embed.add_field(name = f"{daily_item}",value = f"Description: {description} \nPrix: {price} orbes")
-            return await ctx.send(embed=embed)
-    
-
-
     @commands.hybrid_command(name="buy_daily")
     async def buy_daily(self, ctx):
 
@@ -383,9 +282,12 @@ class shop(commands.Cog):
                 await Cf.save_bag(bag,ctx.author.id)
                 return await ctx.send(embed=coin_embed)
 
-            elif bag["daily_shop_data"] == "yokai":
-                brute_inventory = Cf.get_inv(ctx.author.id)
-                
+            elif bag["daily_shop_data"][0] == "yokai":
+                Yokai_choice = bag["daily_shop_data"][3]
+                classid = bag["daily_shop_data"][4]
+                class_name = await Cf.classid_to_class(class_id)
+                brute_inventory = await Cf.get_inv(ctx.author.id)
+
                 yokai_embed = discord.Embed(
                     title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
                     description=f"Félicitations il est de rang **{class_name}**",
@@ -460,7 +362,6 @@ class shop(commands.Cog):
                 color=discord.Color.red()
             )
             return await ctx.send(embed=poor_embed)
-
 
 async def setup(bot) -> None:
     await bot.add_cog(shop(bot))
