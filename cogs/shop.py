@@ -13,7 +13,7 @@ class shop(commands.Cog):
     @commands.hybrid_command(name="shop")
     async def shop(self, ctx, page:str ="1"):
         '''
-        permet de visualiser les items disponibles dans le shop page par page
+        Permet de visualiser les items disponibles dans le shop page par page
         '''
         actual_shop = data.shop_item
         
