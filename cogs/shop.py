@@ -106,12 +106,12 @@ class shop(commands.Cog):
                 coin_type = coin_type[0]
 
                 if coin_type == 'normal':
-                    daily_item = random.choice(data.low_cost_coin_list)
-                    price = data.low_cost_coin #get the price for a normal coin
+                    daily_item = random.choice(data.daily_people["price_daily_shop_object"])
+                    price = data.daily_people["low_cost_coin"] #get the price for a normal coin
 
                 elif coin_type == 'rare':
-                    daily_item = random.choice(data.high_cost_coin_list)
-                    price = data.high_cost_coin #get the price for a rare coin
+                    daily_item = random.choice(data.daily_people["high_cost_coin_list"])
+                    price = data.daily_people["high_cost_coin"] #get the price for a rare coin
 
                 description = "Une petite-pièce à utiliser au /bkai."
                 type_daily_shop = "coin"
@@ -120,14 +120,14 @@ class shop(commands.Cog):
 
             elif daily_item_type == 'object':
                 daily_item = random.choice(data.item_list) #get the object
-                price = data.price_daily_shop_object #get the price for an object
+                price = data.daily_people["price_daily_shop_object"] #get the price for an object
                 type_daily_shop = "object"
                 description = "Un objet en vente."
                 data_daily_shop = [last_daily_shop_reset, type_daily_shop, price, description, daily_item] #save all the data
 
 
             elif daily_item_type == 'yo-kai':
-                weights=data.daily_shop_proba_yokai.copy() #will do a bingo-kai roll, but with better luck
+                weights=data.daily_people["daily_shop_proba_yokai"].copy() #will do a bingo-kai roll, but with better luck
                 class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
                 while class_choice["class_name"] in data.blacklist["rang"]:
                     class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
@@ -143,7 +143,7 @@ class shop(commands.Cog):
                 Yokai_choice = Yokai_choice
                 description = f"Un magnifique yo-kai de rang {class_name}✨"
                 type_daily_shop = "yokai"
-                price = data.classid_to_price[class_id]
+                price = data.daily_people["classid_to_price"][class_id]
                 data_daily_shop = [last_daily_shop_reset, type_daily_shop, price, description, Yokai_choice, class_id] #save all the data
                 
 
@@ -242,12 +242,12 @@ class shop(commands.Cog):
                 coin_type = coin_type[0]
 
                 if coin_type == 'normal':
-                    daily_item = random.choice(data.low_cost_coin_list)
-                    price = data.low_cost_coin #get the price for a normal coin
+                    daily_item = random.choice(data.daily_people["price_daily_shop_object"])
+                    price = data.daily_people["low_cost_coin"] #get the price for a normal coin
 
                 elif coin_type == 'rare':
-                    daily_item = random.choice(data.high_cost_coin_list)
-                    price = data.high_cost_coin #get the price for a rare coin
+                    daily_item = random.choice(data.daily_people["high_cost_coin_list"])
+                    price = data.daily_people["high_cost_coin"] #get the price for a rare coin
 
                 description = "Une petite-pièce à utiliser au /bkai."
                 type_daily_shop = "coin"
@@ -256,14 +256,14 @@ class shop(commands.Cog):
 
             elif daily_item_type == 'object':
                 daily_item = random.choice(data.item_list) #get the object
-                price = data.price_daily_shop_object #get the price for an object
+                price = data.daily_people["price_daily_shop_object"] #get the price for an object
                 type_daily_shop = "object"
                 description = "Un objet en vente."
                 data_daily_shop = [last_daily_shop_reset, type_daily_shop, price, description, daily_item] #save all the data
 
 
             elif daily_item_type == 'yo-kai':
-                weights=data.daily_shop_proba_yokai.copy() #will do a bingo-kai roll, but with better luck
+                weights=data.daily_people["daily_shop_proba_yokai"].copy() #will do a bingo-kai roll, but with better luck
                 class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
                 while class_choice["class_name"] in data.blacklist["rang"]:
                     class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
@@ -279,7 +279,7 @@ class shop(commands.Cog):
                 Yokai_choice = Yokai_choice
                 description = f"Un magnifique yo-kai de rang {class_name}✨"
                 type_daily_shop = "yokai"
-                price = data.classid_to_price[class_id]
+                price = data.daily_people["classid_to_price"][class_id]
                 data_daily_shop = [last_daily_shop_reset, type_daily_shop, price, description, Yokai_choice, class_id] #save all the data
                 
 
