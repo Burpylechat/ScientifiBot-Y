@@ -90,11 +90,8 @@ class Bingo_kai(commands.Cog):
 
 
             # Get current time and convert to midnight timestamp
+            midnight = await Cf.get_midnight()
             current_time = time.time()
-            current_day = time.localtime(current_time)
-            midnight = time.mktime((current_day.tm_year, current_day.tm_mon, 
-                                    current_day.tm_mday, 0, 0, 0, 0, 0, 0))
-            midnight -= 3600 #correction cause it's fucked up
             
             # Check if we need to reset daily limits
             last_reset = bag.get("last_daily_reset", 0)

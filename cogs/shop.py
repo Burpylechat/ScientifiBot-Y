@@ -9,11 +9,7 @@ import time
 if True: #flemme of removing all this tab
     async def generate_daily_shop(ctx):
         #obtient l'heure pour regarder si il faut un reset
-        current_time = time.time()
-        current_day = time.localtime(current_time)
-        midnight = time.mktime((current_day.tm_year, current_day.tm_mon, 
-                                current_day.tm_mday, 0, 0, 0, 0, 0, 0))
-        midnight -= 3600
+        midnight = await Cf.get_midnight()
 
         bag = await Cf.get_bag(ctx.author.id)
         if bag == {}:
