@@ -127,15 +127,6 @@ for dirpath, dirnames, filenames in os.walk("./files/coin"):
         
         coin_loot[file.removesuffix(".json")]["proba_in_order"] = proba_in_order
         coin_loot[file.removesuffix(".json")]["element_in_order"] = element_in_order
-        
-#Get all objects
-item_brute = open_json("./files/items.json")
-items_data = fix_encoding(json.load(item_brute))
-item_list = []
-    
-for item in items_data :
-    #get the name of the item
-    item_list.append(item)
 
 #items info :
 item = open_json("./files/items.json")
