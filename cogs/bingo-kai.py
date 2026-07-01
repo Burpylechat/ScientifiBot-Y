@@ -702,7 +702,7 @@ class Bingo_kai(commands.Cog):
             if equipped_treasure:
                 yokai_embed.set_footer(text=f"{equipped_treasure} utilisé !")
             else:
-                message = random.choice(["La V7 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
+                message = random.choice(["La V8 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
                 yokai_embed.set_footer(text=message)
             await ctx.send(embed=yokai_embed)
             await ctx.send(embed=coin_embed)
@@ -713,7 +713,7 @@ class Bingo_kai(commands.Cog):
             if equipped_treasure:
                 yokai_embed.set_footer(text=f"{equipped_treasure} utilisé !")
             else:
-                message = random.choice(["La V7 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
+                message = random.choice(["La V8 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
                 yokai_embed.set_footer(text=message)
                 
                 
