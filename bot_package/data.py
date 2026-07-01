@@ -165,7 +165,7 @@ daily_people= open_json("./files/daily.json")
 
 price_daily_shop_object = 100
 low_cost_coin = 100
-low_cost_coin_list = ["Pièce rouge","Pièce jaune","Pièce orange","Pièce rose","Pièce verte","Pièce bleue","Pièce mauve","Pièce bleue ciel","bonus_roll"]
+low_cost_coin_list = ["Pièce rouge","Pièce jaune","Pièce orange","Pièce rose","Pièce verte","Pièce bleue","Pièce mauve","Pièce bleue ciel"]
 high_cost_coin = 1000
 high_cost_coin_list = ["Pièce 5 étoiles","Pièce spéciale","Pièce noire","Pièce démoniaque","Pièce scellée","Pièce légendaire"]
 
