@@ -79,11 +79,12 @@ class shop(commands.Cog):
         New ✨! Permet de voir votre item du jour dans la boutique.
         """
 
+        #obitent l'heure pour regarder si il faut un reset
         current_time = time.time()
         current_day = time.localtime(current_time)
         midnight = time.mktime((current_day.tm_year, current_day.tm_mon, 
                                 current_day.tm_mday, 0, 0, 0, 0, 0, 0))
-        midnight -= 3600 #correction cause it's fucked up
+        midnight -= 3600
         bag = await Cf.get_bag(ctx.author.id)
 
         if bag == {}:
