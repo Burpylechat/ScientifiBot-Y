@@ -42,10 +42,12 @@ if True: #flemme of removing all this tab
 
 
             elif daily_item_type == 'object':
-                daily_item = random.choice(data.item) #get the object
+                daily_item = random.choice(data.item_list) #get the object
                 price = data.daily_people["price_daily_shop_object"] #get the price for an object
                 type_daily_shop = "object"
                 description = "Un objet en vente."
+                if data.item[daily_item]["type"] == "treasure":
+                    price = 1000
                 data_daily_shop = [last_daily_shop_reset, type_daily_shop, price, description, daily_item] #save all the data
 
 
@@ -111,7 +113,7 @@ class shop(commands.Cog):
         Permet de visualiser les items disponibles dans le shop page par page
         '''
         actual_shop = data.shop_item
-        
+
         try:
             page = int(page)
         except ValueError:
@@ -125,18 +127,18 @@ class shop(commands.Cog):
         embed = discord.Embed(title="Shop",
                           description="Welcome to the shop! Here are the available items:",
                           color=discord.Color.blue())
-        if page == 1:
-            bag = await Cf.get_bag(ctx.author.id)
+        if page == 1:  #show the daily item on the first page
             await generate_daily_shop(ctx)
+            bag = await Cf.get_bag(ctx.author.id)
             item_type = bag["daily_shop_data"][2]
-            price = bag["daily_shop_data"][3]
             description = bag["daily_shop_data"][4]
+            price = bag["daily_shop_data"][3]
             item = bag["daily_shop_data"][5]
-            class_name = await Cf.classid_to_class(bag["daily_shop_data"][6])
             if item_type == "yokai":
-                embed.add_field(name=f"Item du jour:\n{item} de rang {class_name}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
+                class_name = await Cf.classid_to_class(bag["daily_shop_data"][6])
+                embed.add_field(name=f"Item du jour:\n{item}, yo-kai de rang {class_name}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
             else:
-                embed.add_field(name=f"{item} X{amount}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
+                embed.add_field(name=f"{item}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
             embed.set_footer(text=f"Page {page}/{len(actual_shop.keys())}")
 
         for item in actual_shop[f"page {page}"]:
@@ -229,6 +231,12 @@ class shop(commands.Cog):
 
         bag = await Cf.get_bag(ctx.author.id)
 
+        if bag == {}:
+            bag = data.default_bag.copy()
+            verification = False
+        else:
+            verification = True
+
 
         balance = await eco.get_balance(ctx.author.id) #get the balance
         price = bag["daily_shop_data"][3] #get the price
@@ -245,7 +253,7 @@ class shop(commands.Cog):
         elif balance >= price:
             if bag["daily_shop_data"][2] == "object":
                 item = bag["daily_shop_data"][5]
-                item_type = "obj"
+                item_type = data.item[item]["type"]
                 item_desc = data.item[item]["desc"]
                 
                 if verification:
