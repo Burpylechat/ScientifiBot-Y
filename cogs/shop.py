@@ -131,7 +131,7 @@ class shop(commands.Cog):
                           color=discord.Color.blue())
         if page == 1:
             bag = await Cf.get_bag(ctx.author.id)
-            generate_daily_shop(ctx)
+            await generate_daily_shop(ctx)
             item_type = bag["daily_shop_data"][2]
             price = bag["daily_shop_data"][3]
             description = bag["daily_shop_data"][4]
