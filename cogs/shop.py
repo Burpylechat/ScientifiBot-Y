@@ -311,7 +311,7 @@ class shop(commands.Cog):
                     
                     item_embed.set_footer(text=f"Achat quotidien réalisé!")
                     await eco.add(ctx.author.id, -price)
-                    bag["daily_shop_bought"] = True
+                    bag["daily_shop_data"][0] = True
                     await Cf.save_bag(bag,ctx.author.id)
                     return await ctx.send(embed=item_embed)
 
