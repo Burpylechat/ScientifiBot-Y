@@ -128,12 +128,6 @@ for dirpath, dirnames, filenames in os.walk("./files/coin"):
         coin_loot[file.removesuffix(".json")]["proba_in_order"] = proba_in_order
         coin_loot[file.removesuffix(".json")]["element_in_order"] = element_in_order
 
-#make a list of every objects
-item_brute = open_json("./files/items.json")
-item_list = []
-for item in item_brute:
-    item_list.append(item)
-
 #items info :
 item = open_json("./files/items.json")
 
@@ -159,6 +153,8 @@ shop_item = open_json("./files/shop.json")
 
 #list of people who use daily command today
 daily_people= open_json("./files/daily.json")
+
+daily_shop = open_json("./files/daily_shop.json")
 
 
 default_medallium  = {

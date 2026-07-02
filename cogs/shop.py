@@ -23,18 +23,18 @@ if True: #flemme of removing all this tab
         if last_daily_shop_reset < midnight: #select the item if he didn't get choose this day
             last_daily_shop_reset = midnight
             possible_daily_item_type = ["coin", "object", "yo-kai"]
-            daily_item_type = random.choices(possible_daily_item_type, weights=[0.33,0.33,0.33])[0] #choose the type of the item
+            daily_item_type = random.choice(possible_daily_item_type) #choose the type of the item
 
             if daily_item_type == 'coin':
                 coin_type = random.choices(["normal","rare"],weights=[0.75,0.25])[0] #choose to get a normal or a rare coin
 
                 if coin_type == 'normal':
-                    daily_item = random.choice(data.daily_people["low_cost_coin_list"])
-                    price = data.daily_people["low_cost_coin"] #get the price for a normal coin
+                    daily_item = random.choice(data.daily_shop["low_cost_coin_list"])
+                    price = data.daily_shop["low_cost_coin"] #get the price for a normal coin
 
                 elif coin_type == 'rare':
-                    daily_item = random.choice(data.daily_people["high_cost_coin_list"])
-                    price = data.daily_people["high_cost_coin"] #get the price for a rare coin
+                    daily_item = random.choice(data.daily_shop["high_cost_coin_list"])
+                    price = data.daily_shop["high_cost_coin"] #get the price for a rare coin
 
                 description = "Une petite-pièce à utiliser au /bkai."
                 type_daily_shop = "coin"
@@ -42,8 +42,8 @@ if True: #flemme of removing all this tab
 
 
             elif daily_item_type == 'object':
-                daily_item = random.choice(data.item_list) #get the object
-                price = data.daily_people["price_daily_shop_object"] #get the price for an object
+                daily_item = random.choice(list(data.item.keys())) #get the object
+                price = data.daily_shop["price_daily_shop_object"] #get the price for an object
                 type_daily_shop = "object"
                 description = "Un objet en vente."
                 if data.item[daily_item]["type"] == "treasure":
@@ -52,7 +52,7 @@ if True: #flemme of removing all this tab
 
 
             elif daily_item_type == 'yo-kai':
-                weights=data.daily_people["daily_shop_proba_yokai"].copy() #will do a bingo-kai roll, but with better luck
+                weights=data.daily_shop["daily_shop_proba_yokai"].copy() #will do a bingo-kai roll, but with better luck
                 class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
                 while class_choice["class_name"] in data.blacklist["rang"]:
                     class_choice = data.yokai_data[random.choices(data.class_list, weights=weights, k=1)[0]]
@@ -68,7 +68,7 @@ if True: #flemme of removing all this tab
                 Yokai_choice = Yokai_choice
                 description = f"Un magnifique yo-kai de rang {class_name}✨"
                 type_daily_shop = "yokai"
-                price = data.daily_people["classid_to_price"][class_id]
+                price = data.daily_shop["classid_to_price"][class_id]
                 data_daily_shop = [last_daily_shop_reset, type_daily_shop, price, description, Yokai_choice, class_id] #save all the data
                 
 
@@ -138,7 +138,7 @@ class shop(commands.Cog):
                 class_name = await Cf.classid_to_class(bag["daily_shop_data"][6])
                 embed.add_field(name=f"Item du jour:\n{item}, yo-kai de rang {class_name}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
             else:
-                embed.add_field(name=f"{item}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
+                embed.add_field(name=f"Iem du jour\n{item}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
             embed.set_footer(text=f"Page {page}/{len(actual_shop.keys())}")
 
         for item in actual_shop[f"page {page}"]:
